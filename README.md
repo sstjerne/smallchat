@@ -1,4 +1,3 @@
-
 # My project's Small Chat
 
 
@@ -66,6 +65,9 @@ WIP
 
 
 ###4.Instructions how to add activity & View
+
+[Starting Activity](https://developer.android.com/training/basics/firstapp/starting-activity.html)
+
 
 
 ###5.Instructions on how to install on phone
