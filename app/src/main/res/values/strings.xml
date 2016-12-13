@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SmallChat</string>
+    <string name="quit">Bye Bye</string>
 </resources>
