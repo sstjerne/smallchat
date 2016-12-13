@@ -70,9 +70,12 @@ Mainly the app works contains local broadcast to manage messages between the dif
 
 
 
-###4.Instructions how to add activity & View [~WIP]
+###4.Instructions how to add activity & View
 
-[Starting Activity](https://developer.android.com/training/basics/firstapp/starting-activity.html)
+* Creates the class XXXActivity.java with an implementation of the required onCreate() method, thats generally extends of AppCompatActivity class.
+* Creates the corresponding layout file activity_xxxx.xml
+* Adds the required <activity> element in AndroidManifest.xml.
+
 
 
 
@@ -104,6 +107,4 @@ If you downloaded the APK file on your computer, the process is slightly differe
 ### References:
 [Android Training](https://developer.android.com/training/basics/firstapp/starting-activity.html)
 
-
-###
-I choice Android api 18, Jelly Bean, because around the %70 of device support this API.
+[Starting Activity](https://developer.android.com/training/basics/firstapp/starting-activity.html)
