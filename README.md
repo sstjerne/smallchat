@@ -66,8 +66,7 @@ Android chat with an dummy artificial intelligence, just contains a small list o
 
 #####How is it implemented?
 The android app constain a simple activity where the expose the chat, and there is an simple service that respond the bot messages and also there is the text input to be used for user. 
-Mainly the app works contains local broadcast to manage messages between the different component of application, and there is a adapter to interpret it and know if it should be show as bot message or user message. This local broadcast just receive message from the same process.
-
+Mainly the app works contains local broadcast to manage messages between the different component of application, and there is a adapter to interpret it and know if it should be show as bot message or user message. This local broadcast just receive message from the same process by a service.
 
 
 ###4.Instructions how to add activity & View
