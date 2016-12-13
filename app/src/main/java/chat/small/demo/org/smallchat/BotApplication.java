@@ -36,10 +36,8 @@ public class BotApplication extends Application {
         super.onCreate();
 
         Intent intent = new Intent(this, BotService.class);
-        intent.setAction(Constants.ACTION_START);
+        intent.setAction(Constants.ACTION_QUESTION);
         startService(intent);
-
-        //bindService(new Intent(this, BotService.class), mConnection, Context.BIND_AUTO_CREATE);
 
         // Bind to LocalService
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);

@@ -15,14 +15,22 @@ public class BotService extends Service {
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
-    private boolean isRunning  = false;
+    private int idx = 0;
+    private final String[] messages = {"Hi, I'm chatbot",
+            "How are you?",
+            "What’s up dude?",
+            "hmmm",
+             "Where have you been hiding?",
+            "It’s always a pleasure to see you"
+    };
+
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("BotService","onCreate()");
-        isRunning = true;
+
 
     }
 
@@ -39,9 +47,9 @@ public class BotService extends Service {
         if(action.equalsIgnoreCase(Constants.ACTION_QUESTION)){
 
             String question = intent.getStringExtra(Constants.EXTRA_QUESTION);
-            if(question!=null){
+            if(question!=null || idx == 0){
                 Log.d("BotService","onStartCommand() question:"+question);
-                String answer = "TBD";
+                String answer = idx < messages.length ? messages[idx++] : "Sorry, I can't continue";
 
 
                 Intent localIntent =
@@ -83,8 +91,7 @@ public class BotService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d("BotService", "onDestroy()");
-        isRunning = false;
-    }
+   }
 
 
     /**
