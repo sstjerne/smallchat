@@ -79,7 +79,7 @@ Mainly the app works contains local broadcast to manage messages between the dif
 
 
 
-###5.Instructions on how to install on phone [~WIP]
+###5.Instructions on how to install on phone
 
 
 ####Install apps outside of Google Play:
