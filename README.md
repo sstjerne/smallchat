@@ -99,12 +99,19 @@ To get started, download an APK file using either Google Chrome or the stock And
 If you downloaded the APK file on your computer, the process is slightly different. You must connect your Android device to the PC and enable USB mass-storage mode. The next step is to drag and drop the file onto your device. Then, using a file manager, such as Astro or ES File Explorer, you can locate the file on your device and install it.
 
 
-####Install apps from Google Play: Publish Google Play [~WIP]
+####Install apps from Google Play: Publish Google Play
 
+You have to have account and Google and then after signed up for a Google Play Developer account, you can upload apps to Google Play using your Google Play Developer Console.
 
-
+1. Go to your Google Play Developer Console.
+1. Select All applications All applications > Add new application.
+1. Using the drop down menu, select a default language and add a title for your app. Type the name of your app as you want it to appear in Google Play.
+1. Select Upload APK.
+1. Choose from the Production, Beta, or Alpha channels and select Upload your APK. For more information on alpha/beta testing, go to use alpha/beta testing & staged rollouts.
 
 ### References:
 [Android Training](https://developer.android.com/training/basics/firstapp/starting-activity.html)
 
 [Starting Activity](https://developer.android.com/training/basics/firstapp/starting-activity.html)
+
+[Google Play Developer](https://play.google.com/apps/publish/signup/)
