@@ -1,4 +1,3 @@
-
 # My project's Small Chat
 
 
@@ -62,13 +61,43 @@ Your unsigned apk is now located in ProjectName\app\build\outputs\apk
 
 
 ###3.Project Example
-WIP 
+
+Android chat with an dummy artificial intelligence, just contains a small list of static word to interactive. The bot start with "Hi" greeting.
+
+#####How is it implemented?
+The android app constain a simple activity where the expose the chat, and there is an simple service that respond the bot messages and also there is the text input to be used for user. 
+Mainly the app works contains local broadcast to manage messages between the different component of application, and there is a adapter to interpret it and know if it should be show as bot message or user message. This local broadcast just receive message from the same process.
 
 
-###4.Instructions how to add activity & View
+
+###4.Instructions how to add activity & View [~WIP]
+
+[Starting Activity](https://developer.android.com/training/basics/firstapp/starting-activity.html)
 
 
-###5.Instructions on how to install on phone
+
+###5.Instructions on how to install on phone [~WIP]
+
+
+####Install apps outside of Google Play:
+Android devices have the ability to "sideload" applications that aren't available on the Google Play store. What should we do:
+
+#####Setting up your device
+
+From your smartphone, go to Settings, scroll down to Security, and select Unknown sources. Selecting this option will allow you to install apps outside of the Google Play store. Depending on your device, you can also choose to be warned before installing harmful apps. This can be enabled by selecting the Verify apps option in the Security settings.On devices running an earlier version of Android, go to Settings, open the Applications option, select Unknown sources, and click OK on the popup aler
+
+#####Downloading an app
+
+The next step will be finding an Android package file, also known as an APK, which is the way Android apps are distributed and installed. 
+You can either download the APK file on your mobile device or on your computer. 
+
+To get started, download an APK file using either Google Chrome or the stock Android browser. Next, go to your app drawer and click Downloads; here you will find the file you just downloaded. Open the file and install the app.
+
+If you downloaded the APK file on your computer, the process is slightly different. You must connect your Android device to the PC and enable USB mass-storage mode. The next step is to drag and drop the file onto your device. Then, using a file manager, such as Astro or ES File Explorer, you can locate the file on your device and install it.
+
+
+####Install apps from Google Play: Publish Google Play [~WIP]
+
 
 
 
