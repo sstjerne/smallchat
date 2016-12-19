@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+<!-- 	<appender name="fileAppender" -->
+<!-- 		class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!-- 		<file>/tmp/vaus.log</file> -->
+<!-- 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+<!-- 			<fileNamePattern>consumer_%d{yyyy-MM-dd}.log</fileNamePattern> -->
+<!-- 			<maxHistory>30</maxHistory> -->
+<!-- 		</rollingPolicy> -->
+<!-- 		<encoder> -->
+<!-- 			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n -->
+<!-- 			</pattern> -->
+<!-- 		</encoder> -->
+<!-- 	</appender> -->
+
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+			</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+	<logger name="org.springframework.security" level="DEBUG" />
+	<logger name="org.springframework.web" level="DEBUG" />
+	<logger name="org.hibernate" level="DEBUG" />
+	
+
+	<root level="DEBUG">
+<!-- 		<appender-ref ref="fileAppender" /> -->
+		<appender-ref ref="consoleAppender" />
+	</root>
+</configuration>

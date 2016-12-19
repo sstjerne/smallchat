@@ -1,0 +1,21 @@
+CREATE  TABLE users (
+username VARCHAR(45) NOT NULL ,
+password VARCHAR(45) NOT NULL ,
+enabled TINYINT NOT NULL DEFAULT 1 ,
+PRIMARY KEY (username));
+  
+CREATE TABLE authorities (
+user_authority_id int(11) NOT NULL AUTO_INCREMENT,
+username varchar(45) NOT NULL,
+authority varchar(45) NOT NULL,
+PRIMARY KEY (user_authority_id),
+UNIQUE KEY uni_username_authority (authority,username),
+KEY fk_username_idx (username),
+CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
+  
+INSERT INTO users(username,password,enabled) VALUES ('jude','123456', true);
+INSERT INTO users(username,password,enabled) VALUES ('seba','123456', true);
+
+INSERT INTO authorities (username, authority) VALUES ('jude', 'ROLE_USER');
+INSERT INTO authorities (username, authority) VALUES ('jude', 'ROLE_ADMIN');
+INSERT INTO authorities (username, authority) VALUES ('seba', 'ROLE_USER');

@@ -1,0 +1,25 @@
+/target/
+
+
+#Eclipse files #
+.settings/
+
+.classpath
+.project
+target/
+bin/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+*.class
+.settings
+org.eclipse.*
+.settings/*
+
+*~
+
+*.log*
+
