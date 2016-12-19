@@ -66,17 +66,19 @@ Android chat with an dummy artificial intelligence, just contains a small list o
 
 #####How is it implemented?
 The android app constain a simple activity where the expose the chat, and there is an simple service that respond the bot messages and also there is the text input to be used for user. 
-Mainly the app works contains local broadcast to manage messages between the different component of application, and there is a adapter to interpret it and know if it should be show as bot message or user message. This local broadcast just receive message from the same process.
+Mainly the app works contains local broadcast to manage messages between the different component of application, and there is a adapter to interpret it and know if it should be show as bot message or user message. This local broadcast just receive message from the same process by a service.
+
+
+###4.Instructions how to add activity & View
+
+* Creates the class XXXActivity.java with an implementation of the required onCreate() method, thats generally extends of AppCompatActivity class.
+* Creates the corresponding layout file activity_xxxx.xml
+* Adds the required <activity> element in AndroidManifest.xml.
 
 
 
-###4.Instructions how to add activity & View [~WIP]
 
-[Starting Activity](https://developer.android.com/training/basics/firstapp/starting-activity.html)
-
-
-
-###5.Instructions on how to install on phone [~WIP]
+###5.Instructions on how to install on phone
 
 
 ####Install apps outside of Google Play:
@@ -96,14 +98,19 @@ To get started, download an APK file using either Google Chrome or the stock And
 If you downloaded the APK file on your computer, the process is slightly different. You must connect your Android device to the PC and enable USB mass-storage mode. The next step is to drag and drop the file onto your device. Then, using a file manager, such as Astro or ES File Explorer, you can locate the file on your device and install it.
 
 
-####Install apps from Google Play: Publish Google Play [~WIP]
+####Install apps from Google Play: Publish Google Play
 
+You have to have account and Google and then after signed up for a Google Play Developer account, you can upload apps to Google Play using your Google Play Developer Console.
 
-
+1. Go to your Google Play Developer Console.
+1. Select All applications All applications > Add new application.
+1. Using the drop down menu, select a default language and add a title for your app. Type the name of your app as you want it to appear in Google Play.
+1. Select Upload APK.
+1. Choose from the Production, Beta, or Alpha channels and select Upload your APK. For more information on alpha/beta testing, go to use alpha/beta testing & staged rollouts.
 
 ### References:
 [Android Training](https://developer.android.com/training/basics/firstapp/starting-activity.html)
 
+[Starting Activity](https://developer.android.com/training/basics/firstapp/starting-activity.html)
 
-###
-I choice Android api 18, Jelly Bean, because around the %70 of device support this API.
+[Google Play Developer](https://play.google.com/apps/publish/signup/)
