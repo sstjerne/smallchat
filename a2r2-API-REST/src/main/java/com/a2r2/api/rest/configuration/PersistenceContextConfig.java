@@ -44,7 +44,7 @@ public class PersistenceContextConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "com.a2r2.api.rest.persistence.model","com.a2r2.api.rest.persistence.model.oauth2" });
+		em.setPackagesToScan(new String[] { "com.a2r2.api.rest.persistence.model" });
 
 		final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		// vendorAdapter.set

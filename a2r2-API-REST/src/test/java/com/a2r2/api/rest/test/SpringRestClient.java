@@ -109,7 +109,7 @@ public class SpringRestClient {
         System.out.println("\nTesting getUser API----------");
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<String>(getHeaders());
-        ResponseEntity<User> response = restTemplate.exchange(REST_SERVICE_URI+"/user/1"+QPM_ACCESS_TOKEN+tokenInfo.getAccess_token(),
+        ResponseEntity<User> response = restTemplate.exchange(REST_SERVICE_URI+"/user/jude"+QPM_ACCESS_TOKEN+tokenInfo.getAccess_token(),
         		HttpMethod.GET, request, User.class);
         User user = response.getBody();
         System.out.println(user);
@@ -118,15 +118,16 @@ public class SpringRestClient {
     /*
      * Send a POST request to create a new user.
      */
-    private static void createUser(AuthTokenInfo tokenInfo) {
+    private static String createUser(AuthTokenInfo tokenInfo) {
     	Assert.notNull(tokenInfo, "Authenticate first please......");
         System.out.println("\nTesting create User API----------");
         RestTemplate restTemplate = new RestTemplate();
-        User user = new User(0,"Sarah",51,134);
+        User user = UserBuilder.create();
         HttpEntity<Object> request = new HttpEntity<Object>(user, getHeaders());
         URI uri = restTemplate.postForLocation(REST_SERVICE_URI+"/user/"+QPM_ACCESS_TOKEN+tokenInfo.getAccess_token(),
         		request, User.class);
         System.out.println("Location : "+uri.toASCIIString());
+        return user.getUsername();
     }
  
     /*
@@ -136,7 +137,7 @@ public class SpringRestClient {
     	Assert.notNull(tokenInfo, "Authenticate first please......");
         System.out.println("\nTesting update User API----------");
         RestTemplate restTemplate = new RestTemplate();
-        User user  = new User(1,"Tomy",33, 70000);
+        User user = UserBuilder.create();
         HttpEntity<Object> request = new HttpEntity<Object>(user, getHeaders());
         ResponseEntity<User> response = restTemplate.exchange(REST_SERVICE_URI+"/user/1"+QPM_ACCESS_TOKEN+tokenInfo.getAccess_token(),
         		HttpMethod.PUT, request, User.class);
@@ -174,7 +175,7 @@ public class SpringRestClient {
         
     	getUser(tokenInfo);
         
-    	createUser(tokenInfo);
+    	String username = createUser(tokenInfo);
         listAllUsers(tokenInfo);
         
         updateUser(tokenInfo);
