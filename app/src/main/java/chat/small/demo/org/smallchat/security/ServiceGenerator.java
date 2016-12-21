@@ -1,5 +1,6 @@
 package chat.small.demo.org.smallchat.security;
 
+/*
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
@@ -13,7 +14,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -78,7 +78,7 @@ public class ServiceGenerator {
                     }
 
                     // We need a new client, since we don't want to make another call using our client with access token
-                    APIClient tokenClient = createService(APIClient.class);
+                    Oauth2API tokenClient = createService(Oauth2API.class);
                     Call<AccessToken> call = tokenClient.getRefreshAccessToken(mToken.getRefreshToken(),
                             mToken.getClientID(), mToken.getClientSecret(), API_OAUTH_REDIRECT,
                             "refresh_token");
@@ -192,4 +192,4 @@ public class ServiceGenerator {
         }
         return result;
     }
-}
+}*/
