@@ -86,7 +86,12 @@ public class PersistenceContextConfig {
 		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 		hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		hibernateProperties.setProperty("hibernate.archive.autodetection", "class");
+		if (env.containsProperty("hibernate.hbm2ddl.import_files")) {
+			hibernateProperties.setProperty("hibernate.hbm2ddl.import_files", env.getProperty("hibernate.hbm2ddl.import_files"));
 
+		}
+		
+		
 		return hibernateProperties;
 	}
 
