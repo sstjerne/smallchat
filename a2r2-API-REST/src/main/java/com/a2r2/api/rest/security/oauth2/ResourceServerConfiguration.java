@@ -1,6 +1,7 @@
 package com.a2r2.api.rest.security.oauth2;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -20,12 +21,23 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.
-		anonymous().disable()
-		.requestMatchers().antMatchers("/user/**")
-		.and().authorizeRequests()
-		.antMatchers("/user/**").access("hasRole('ADMIN')")
+		http
+		.exceptionHandling().and()
+		.anonymous().and()
+		.servletApi().and()
+		.authorizeRequests()
+		.antMatchers(HttpMethod.GET, "/user/**").hasAnyRole("USER","ADMIN")
+		.antMatchers(HttpMethod.PUT, "/user/**").hasAnyRole("USER","ADMIN")
+		.antMatchers(HttpMethod.POST, "/user").permitAll()
+		.antMatchers(HttpMethod.DELETE, "/user/**").hasAnyRole("ADMIN")	
 		.and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+
+//		http.
+//		anonymous().disable()
+//		.requestMatchers().antMatchers("/user/**")
+//		.and().authorizeRequests()
+//		.antMatchers("/user/**").access("hasRole('ADMIN')")
+//		.and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 	}
 
 }

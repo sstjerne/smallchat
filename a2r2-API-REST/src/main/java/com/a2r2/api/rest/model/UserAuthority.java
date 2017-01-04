@@ -3,6 +3,7 @@ package com.a2r2.api.rest.model;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name="authorities")
 @Entity
+@IdClass(UserAuthority.class)
 public class UserAuthority implements GrantedAuthority {
 
 	/**

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.a2r2.api.rest.model.User;
+import com.a2r2.api.rest.model.UserAuthority;
 import com.a2r2.api.rest.persistence.IUserRepository;
 import com.a2r2.api.rest.service.UserService;
 import com.google.common.base.Preconditions;
@@ -29,10 +30,12 @@ public class UserServiceImpl implements UserService {
 	private IUserRepository userRepository;
 
 	@Override
+	@Transactional(readOnly = true)
 	public User findOne(String username) {
 		return userRepository.findOne(username);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<User> findAll() {
 		return userRepository.findAll();
@@ -40,6 +43,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User create(User entity) {
+		//TODO: Notify by email to validate the account & email. Make the service to authorize.
+//		for (UserAuthority auth : entity.getAuthorities()) {
+//			auth.setUser(entity);
+//		}
+		
+		entity.setEnabled(true);
 		return userRepository.save(entity);
 	}
 
@@ -48,10 +57,20 @@ public class UserServiceImpl implements UserService {
 		Preconditions.checkNotNull(entity);
 		
 		User user = userRepository.findOne(username);
-		if (user != null) {
+		
+		if (user == null) {
 			return null;
-		}		
-		entity = userRepository.save(entity);
+		}
+		
+		//TODO: Add an Converter to merge models
+		if(entity.getName() != null){
+			user.setName(entity.getName());
+		}
+		if(entity.getSurname() != null){ 
+			user.setSurname(entity.getSurname());
+		}
+		
+		entity = userRepository.save(user);
 		return entity;
 	}
 

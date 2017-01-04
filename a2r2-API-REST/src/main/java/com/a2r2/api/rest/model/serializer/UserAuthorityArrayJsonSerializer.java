@@ -23,9 +23,9 @@ public class UserAuthorityArrayJsonSerializer extends JsonSerializer<Set<UserAut
     	jgen.writeStartArray();
         if (!value.isEmpty()) {
         	for (UserAuthority userAuthority : value) {
-        		jgen.writeStartObject();
-            	jgen.writeStringField(UserRole.valueOf(userAuthority).toString(), String.valueOf(userAuthority));
-            	jgen.writeEndObject();
+        		String auth = UserRole.valueOf(userAuthority).toString();
+        		LOGGER.debug("Add authority::"  + auth);
+				jgen.writeString(auth);
         	}
         }
     	jgen.writeEndArray();

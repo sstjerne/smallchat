@@ -28,7 +28,8 @@ public class UserRESTController {
 	@Autowired
 	private UserService service;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<User>> listAllUsers() {
 		LOGGER.debug("Entering listAllUsers");
 		List<User> users = service.findAll();
@@ -51,11 +52,12 @@ public class UserRESTController {
 	}
 
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		LOGGER.debug("Creating User " + user.getName());
 
-		if (service.findOne(user.getName()) != null) {
+		if (service.findOne(user.getUsername()) != null) {
 			LOGGER.debug("A User with name " + user.getName() + " already exist");
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
@@ -68,7 +70,8 @@ public class UserRESTController {
 	}
 
 
-	@RequestMapping(value = "/{username}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{username}", method = RequestMethod.PUT , consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<User> updateUser(@PathVariable("username") String username, @RequestBody User user) {
 		LOGGER.debug("Updating User " + username);
 

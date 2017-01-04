@@ -23,23 +23,24 @@ public class UserAuthorityArrayJsonDeserializer extends JsonDeserializer<Set<Use
 	public Set<UserAuthority> deserialize(JsonParser jp, DeserializationContext deserializationcontext)
 			throws IOException, JsonProcessingException {
 
+		
 		Set<UserAuthority> authorities = new HashSet<>();
 		if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
 			while (jp.getCurrentToken() != JsonToken.END_ARRAY) {
 				JsonToken token = jp.nextToken();
-				if (token == JsonToken.START_OBJECT) {
-					token = jp.nextToken();
-					String role = jp.getCurrentName();
-					token = jp.nextToken();
-					
+				if (token == JsonToken.VALUE_STRING) {
+					String role = jp.getText();
+
 					UserRole userRole = UserRole.valueOf(role);
 					UserAuthority authorityPM = new UserAuthority();
 					authorityPM.setAuthority("ROLE_" + userRole.toString());
 					authorities.add(authorityPM);
-					token = jp.nextToken();
-
 				}
 			}
+		} else {
+			UserAuthority authorityPM = new UserAuthority();
+			authorityPM.setAuthority("ROLE_" + UserRole.USER.toString());
+			authorities.add(authorityPM);
 		}
 
 		return authorities;
