@@ -11,13 +11,17 @@ import retrofit2.http.Query;
 
 public interface UserAPI {
 
-  @Headers( "Content-Type: application/json" )
-  @POST("/user")
-  Call<User> createUser(@Body User user);
+  @Headers( {"Content-Type: application/json", "Accept: application/json" } )
+  @POST("/{app}/user")
+  Call<Void> createUser(@Path("app") String app,
+                        @Body User user);
 
 
-  @GET("/user/{username}")
-  Call<User> getUser(@Header("Authorization") String authorization, @Path("username") String username,
+  @GET("/{app}/user/{username}")
+  Call<User> getUser(@Header("Authorization") String authorization,
+                     @Header("Accept") String acceptType,
+                     @Path("app") String app,
+                     @Path("username") String username,
                      @Query("access_token") String access_token);
 
 }

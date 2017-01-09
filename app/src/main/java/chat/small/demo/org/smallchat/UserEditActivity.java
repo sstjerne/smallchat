@@ -3,6 +3,8 @@ package chat.small.demo.org.smallchat;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +15,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.IOException;
+
 public class UserEditActivity extends AppCompatActivity {
+
+
+    public static final int REQUEST_CODE_BY_REGISTER = 2;
 
     private AutoCompleteTextView mEmailView, mNameView, mSurnameView;
     private EditText mPasswordView,mConfirmPasswordView;
 
-    private UserSignInTask userSignInTask = null;
+    private UserRegisterTask userRegisterTask = null;
 
     private View mProgressView;
     private View mUserEditFormView;
@@ -35,12 +42,14 @@ public class UserEditActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.user_edit_password);
         mConfirmPasswordView = (EditText) findViewById(R.id.user_edit_confirm);
 
-        Button mSignInButton = (Button) findViewById(R.id.user_edit_sign_in_button);
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
+        Button mRegisterButton = (Button) findViewById(R.id.user_edit_register_button);
+        mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //attemptSignIn();
-                onBackPressed();
+                boolean response  = attemptRegister();
+                if (response) {
+                    onBackPressed();
+                }
             }
         });
 
@@ -63,9 +72,9 @@ public class UserEditActivity extends AppCompatActivity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptSignIn() {
-        if (userSignInTask != null) {
-            return;
+    private boolean attemptRegister() {
+        if (userRegisterTask != null) {
+            return false;
         }
 
         // Reset errors.
@@ -119,7 +128,7 @@ public class UserEditActivity extends AppCompatActivity {
         }
 
 
-        if (TextUtils.isEmpty(surname)) {
+        if (TextUtils.isEmpty(surname)) { 
             mSurnameView.setError(getString(R.string.error_field_required));
             focusView = mSurnameView;
             cancel = true;
@@ -127,21 +136,23 @@ public class UserEditActivity extends AppCompatActivity {
 
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            // There was an error;
             focusView.requestFocus();
+            return false;
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            userSignInTask = new UserSignInTask(email, password, name, surname);
-            userSignInTask.execute((Void) null);
+            userRegisterTask = new UserRegisterTask(email, password, name, surname);
+            userRegisterTask.execute((Void) null);
+            return true;
         }
     }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        //return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -187,7 +198,7 @@ public class UserEditActivity extends AppCompatActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserSignInTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -195,7 +206,7 @@ public class UserEditActivity extends AppCompatActivity {
         private final String mSurname;
 
 
-        UserSignInTask(String email, String password, String name, String surname) {
+        UserRegisterTask(String email, String password, String name, String surname) {
             mEmail = email;
             mPassword = password;
             mName = name;
@@ -204,26 +215,37 @@ public class UserEditActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-
-            return true;
+            String username = null;
+            try {
+                username = RESTClientWrapper.createUser(mEmail,mPassword,mName,mSurname);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return username != null;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            userSignInTask = null;
+            userRegisterTask = null;
             showProgress(false);
 
             if (success) {
+                //Notify with Toast ?
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("username", mEmail);
+                setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                //TODO:Handle message Error = > Focus the field is mistakes
+                mEmailView.setError(getString(R.string.error_generic));
+                mEmailView.requestFocus();
             }
         }
 
         @Override
         protected void onCancelled() {
-            userSignInTask = null;
+            userRegisterTask = null;
             showProgress(false);
         }
     }

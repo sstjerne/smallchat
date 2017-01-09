@@ -3,6 +3,7 @@ package chat.small.demo.org.smallchat;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -15,6 +16,7 @@ public class BotService extends Service {
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
+    private String username = null;
     private int idx = 0;
     private final String[] messages = {"Hi, I'm chatbot",
             "How are you?",
@@ -41,6 +43,7 @@ public class BotService extends Service {
             Log.d("BotService","onStartCommand() null");
             return Service.START_STICKY;
         }
+
 
         String action = intent.getAction();
 

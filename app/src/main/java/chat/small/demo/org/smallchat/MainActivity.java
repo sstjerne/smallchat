@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle b = this.getIntent().getExtras();
+        String username = b.getString("username");
+        String accesstoken = b.getString("accessToken");
+
         if (savedInstanceState == null) {
             Log.d("MainActivity", "onCreate savedInstanceState null");
             adapter = new ChatRoomArrayAdapter(getApplicationContext());

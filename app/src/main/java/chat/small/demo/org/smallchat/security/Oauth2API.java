@@ -10,6 +10,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface Oauth2API {
 
@@ -34,8 +35,10 @@ public interface Oauth2API {
 */
 
     @FormUrlEncoded
-    @POST("/oauth/token")
+    @POST("{app}/oauth/token")
     Call<AccessToken> getAccessToken(@Header("Authorization") String authorization,
+                                     @Header("Accept") String acceptType,
+                                     @Path("app") String app,
                                @Field("username") String username,
             @Field("password") String password,
             @Field("grant_type") String grantType);

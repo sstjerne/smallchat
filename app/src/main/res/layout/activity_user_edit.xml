@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeActionLabel="@string/action_log_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -115,12 +115,12 @@
 
 
             <Button
-                android:id="@+id/user_edit_sign_in_button"
+                android:id="@+id/user_edit_register_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Add"
+                android:text="@string/action_register_short"
                 android:textStyle="bold" />
             <Button
                 android:id="@+id/user_edit_cancel_button"
