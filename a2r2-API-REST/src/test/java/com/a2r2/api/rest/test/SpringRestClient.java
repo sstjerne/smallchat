@@ -1,6 +1,7 @@
 package com.a2r2.api.rest.test;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,18 +12,20 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import com.a2r2.api.rest.model.User;
+
 
 public class SpringRestClient {
 
 	public static final String REST_SERVICE_URI = "http://localhost:8080/a2r2-API-REST";
 
 	public static final String AUTH_SERVER_URI = "http://localhost:8080/a2r2-API-REST/oauth/token";
-
-	public static final String QPM_PASSWORD_GRANT = "?grant_type=password&username=jude&password=123456";
 
 	public static final String QPM_ACCESS_TOKEN = "?access_token=";
 
@@ -32,6 +35,7 @@ public class SpringRestClient {
 	private static HttpHeaders getHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		headers.setContentType(MediaType.APPLICATION_JSON);
 		return headers;
 	}
 
@@ -53,8 +57,13 @@ public class SpringRestClient {
 	 * then be send with each request.
 	 */
 	@SuppressWarnings({ "unchecked" })
-	private static AuthTokenInfo sendTokenRequest() {
-		RestTemplate restTemplate = new RestTemplate();
+	private static AuthTokenInfo sendTokenRequest(String username, String password) {
+		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+		interceptors.add(new LoggingRequestInterceptor());
+		restTemplate.setInterceptors(interceptors);
+
+		final String QPM_PASSWORD_GRANT =  String.format("?grant_type=password&username=%s&password=%s",username, password);
 
 		HttpEntity<String> request = new HttpEntity<String>(getHeadersWithClientCredentials());
 		ResponseEntity<Object> response = restTemplate.exchange(AUTH_SERVER_URI + QPM_PASSWORD_GRANT, HttpMethod.POST,
@@ -90,7 +99,10 @@ public class SpringRestClient {
 		Assert.notNull(tokenInfo, "Authenticate first please......");
 
 		System.out.println("\nTesting listAllUsers API-----------");
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+		interceptors.add(new LoggingRequestInterceptor());
+		restTemplate.setInterceptors(interceptors);
 
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
 		ResponseEntity<List> response = restTemplate.exchange(
@@ -112,31 +124,36 @@ public class SpringRestClient {
 	/*
 	 * Send a GET request to get a specific user.
 	 */
-	private static void getUser(AuthTokenInfo tokenInfo) {
+	private static void getUser(AuthTokenInfo tokenInfo, User user) {
 		Assert.notNull(tokenInfo, "Authenticate first please......");
 		System.out.println("\nTesting getUser API----------");
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+		interceptors.add(new LoggingRequestInterceptor());
+		restTemplate.setInterceptors(interceptors);
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
 		ResponseEntity<User> response = restTemplate.exchange(
-				REST_SERVICE_URI + "/user/jude" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.GET,
+				REST_SERVICE_URI + "/user/" + user.getUsername() + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.GET,
 				request, User.class);
-		User user = response.getBody();
-		System.out.println(user);
+		User responseUser = response.getBody();
+		System.out.println(responseUser);
 	}
 
 	/*
 	 * Send a POST request to create a new user.
 	 */
-	private static String createUser(AuthTokenInfo tokenInfo) {
-		Assert.notNull(tokenInfo, "Authenticate first please......");
+	private static User createUser() {
+		
 		System.out.println("\nTesting create User API----------");
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+		interceptors.add(new LoggingRequestInterceptor());
+		restTemplate.setInterceptors(interceptors);
 		User user = UserBuilder.create();
-		HttpEntity<Object> request = new HttpEntity<Object>(user, getHeaders());
-		URI uri = restTemplate.postForLocation(
-				REST_SERVICE_URI + "/user/" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), request, User.class);
+		HttpEntity<Object> request = new HttpEntity<Object>(user, getHeadersWithClientCredentials());
+		URI uri = restTemplate.postForLocation(REST_SERVICE_URI + "/user", request, User.class);
 		System.out.println("Location : " + uri.toASCIIString());
-		return user.getUsername();
+		return user;
 	}
 
 	/*
@@ -145,7 +162,10 @@ public class SpringRestClient {
 	private static void updateUser(String username, AuthTokenInfo tokenInfo) {
 		Assert.notNull(tokenInfo, "Authenticate first please......");
 		System.out.println("\nTesting update User API----------");
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+		interceptors.add(new LoggingRequestInterceptor());
+		restTemplate.setInterceptors(interceptors);
 		User user = UserBuilder.create(username);
 		HttpEntity<Object> request = new HttpEntity<Object>(user, getHeaders());
 		ResponseEntity<User> response = restTemplate.exchange(
@@ -160,25 +180,27 @@ public class SpringRestClient {
 	private static void deleteUser(String username, AuthTokenInfo tokenInfo) {
 		Assert.notNull(tokenInfo, "Authenticate first please......");
 		System.out.println("\nTesting delete User API----------");
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+		interceptors.add(new LoggingRequestInterceptor());
+		restTemplate.setInterceptors(interceptors);
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
 		restTemplate.exchange(REST_SERVICE_URI + "/user/" + username + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(),
 				HttpMethod.DELETE, request, User.class);
 	}
 
 	public static void main(String args[]) {
-		AuthTokenInfo tokenInfo = sendTokenRequest();
+		User user = createUser();
+	
+		AuthTokenInfo tokenInfo = sendTokenRequest(user.getUsername(), user.getPassword());
 		listAllUsers(tokenInfo);
 
-		getUser(tokenInfo);
+		getUser(tokenInfo, user);
 
-		String username = createUser(tokenInfo);
+		updateUser(user.getUsername(), tokenInfo);
 		listAllUsers(tokenInfo);
 
-		updateUser(username, tokenInfo);
-		listAllUsers(tokenInfo);
-
-		deleteUser(username, tokenInfo);
+		deleteUser(user.getUsername(), tokenInfo);
 		listAllUsers(tokenInfo);
 
 	}

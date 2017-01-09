@@ -18,8 +18,8 @@ public class UserBuilder {
 		resource.setSurname("surname_" + prefix);
 		resource.setAuthorities(new HashSet<>());
 
-		resource.getAuthorities().add(new UserAuthority("ROLE_ADMIN"));
-
+		resource.getAuthorities().add(new UserAuthority("ADMIN"));
+		resource.getAuthorities().add(new UserAuthority("USER"));
 		return resource;
 	}
 	
@@ -33,7 +33,9 @@ public class UserBuilder {
 		resource.setName("name_" + prefix);
 		resource.setSurname("surname_" + prefix);
 		resource.setAuthorities(new HashSet<>());
-		resource.getAuthorities().add(new UserAuthority("ROLE_ADMIN"));
+		resource.getAuthorities().add(new UserAuthority("ADMIN"));
+		resource.getAuthorities().add(new UserAuthority("USER"));
+
 		return resource;
 	
 	}
